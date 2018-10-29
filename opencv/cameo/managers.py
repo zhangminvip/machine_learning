@@ -5,7 +5,7 @@ import time
 
 class CaptureManager(object):
 
-    def __init(self, capture, previewWindowsManager=None,
+    def __init__(self, capture, previewWindowsManager=None,
                shouldMirrorPreview=False):
         self.previeWindowManager = previewWindowsManager
         self.shouldMirrorPreview = shouldMirrorPreview
@@ -102,7 +102,7 @@ class CaptureManager(object):
         '''Write the next exited frame to an image file'''
         self._imageFilename = filename
 
-    def startWriteVideo(self, filename, encoding = cv2.VideoWriter_fourcc('I','4','2','0')):
+    def startWritingVideo(self, filename, encoding = cv2.VideoWriter_fourcc('I','4','2','0')):
         '''start writing exited frames to a video file'''
         self._videoFilename = filename
         self._videoEncoding = encoding
@@ -134,8 +134,32 @@ class CaptureManager(object):
         self._videoWriter.write(self._frame)
 
 
+    class WindowManager(object):
+        def __init__(self, windowName, keypressCallback = None):
+            self.keypressCallback = keypressCallback
+            self._windowName = windowName
+            self._isWindowCreated = False
 
+        @property
+        def isWindowCreated(self):
+            return self._isWindowCreated
 
+        def createWindow(self):
+            cv2.nameWindow(self._windowName)
+            self._isWindowCreated = True
+
+        def show(self,frame):
+            cv2.imshow(self._windowName,frame)
+
+        def destoryWindow(self):
+            self.destoryWindow(self._windowName)
+            self._isWindowCreated = False
+
+        def processEvent(self):
+            keyCode = cv2.waitKey(1)
+            if self.keypressCallback is not None and keyCode != -1:
+                keyCode &= 0xFF
+                self.keypressCallback(keyCode)
 
 
 
