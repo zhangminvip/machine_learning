@@ -19,7 +19,7 @@ class CaptureManager(object):
         self._videoEncoding = None
         self._videoWriter = None
         self._startTime = None
-        self._framesElapsed = long(0)
+        self._framesElapsed = int(0)
         self._fpsestimate = None
 
 
@@ -130,36 +130,37 @@ class CaptureManager(object):
             size = (int(self._capture.get(cv2.CAP_PROP_FRAME_WIDTH)),
                     int(self._capture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
 
-            self._videoWriter = cv2.videoWriter(self._videoFilename,self._videoEncoding,fps,size)
+            self._videoWriter = cv2.VideoWriter(self._videoFilename,self._videoEncoding,fps,size)
         self._videoWriter.write(self._frame)
 
 
-    class WindowManager(object):
-        def __init__(self, windowName, keypressCallback = None):
-            self.keypressCallback = keypressCallback
-            self._windowName = windowName
-            self._isWindowCreated = False
+class WindowManager(object):
+    def __init__(self, windowName, keypressCallback = None):
+        self.keypressCallback = keypressCallback
+        self._windowName = windowName
+        self._isWindowCreated = False
 
-        @property
-        def isWindowCreated(self):
-            return self._isWindowCreated
+    @property
+    def isWindowCreated(self):
+        return self._isWindowCreated
 
-        def createWindow(self):
-            cv2.nameWindow(self._windowName)
-            self._isWindowCreated = True
+    def createWindow(self):
+        cv2.namedWindow(self._windowName)
+        self._isWindowCreated = True
 
-        def show(self,frame):
-            cv2.imshow(self._windowName,frame)
+    def show(self,frame):
+        cv2.imshow(self._windowName,frame)
 
-        def destoryWindow(self):
-            self.destoryWindow(self._windowName)
-            self._isWindowCreated = False
+    def destoryWindow(self):
+        print(type(self._windowName))
+        cv2.destroyWindow(self._windowName)
+        self._isWindowCreated = False
 
-        def processEvent(self):
-            keyCode = cv2.waitKey(1)
-            if self.keypressCallback is not None and keyCode != -1:
-                keyCode &= 0xFF
-                self.keypressCallback(keyCode)
+    def processEvent(self):
+        keyCode = cv2.waitKey(1)
+        if self.keypressCallback is not None and keyCode != -1:
+            keyCode &= 0xFF
+            self.keypressCallback(keyCode)
 
 
 
