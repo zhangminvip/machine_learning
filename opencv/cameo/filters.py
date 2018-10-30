@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import utils
 
+# def BGRProtraCurveFilter():
+#     return EmbossFilter()
 
 def strokeEdges(src, dst, blurKsize=7, edgeKsize=5):
     if blurKsize >= 3:
@@ -66,4 +68,4 @@ class EmbossFilter(VConvolutionFilter):
         kernel = np.array([[-2, -1, 0],
                            [-1, 1, -1],
                            [0, 1, 2]])
-        VConvolutionFilter.apply(self,kernel)
+        VConvolutionFilter.__init__(self,kernel)
