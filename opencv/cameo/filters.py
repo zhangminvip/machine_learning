@@ -15,6 +15,7 @@ def strokeEdges(src, dst, blurKsize=7, edgeKsize=5):
     normalizedInverseAlpha = (1.0 / 255) * (255 - graySrc)
     channels = cv2.split(src)
     for channel in channels:
+        # print(channel)
         channel[:] = channel * normalizedInverseAlpha
     cv2.merge(channels, dst)
 
@@ -69,3 +70,8 @@ class EmbossFilter(VConvolutionFilter):
                            [-1, 1, -1],
                            [0, 1, 2]])
         VConvolutionFilter.__init__(self,kernel)
+
+
+if __name__ == "__main__":
+    img =  cv2.imread('/home/minzhang/ml/hpf_test.jpg')
+    strokeEdges(img,img)

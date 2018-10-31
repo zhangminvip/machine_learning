@@ -15,7 +15,7 @@ class Cameo(object):
             self._captureManager.enterFrame()
             frame = self._captureManager.frame
             filters.strokeEdges(frame, frame)
-            # self._curveFilter.apply(frame,frame)
+            self._curveFilter.apply(frame,frame)
             self._captureManager.exitFrame()
             self._windowManager.processEvent()
 
@@ -35,7 +35,9 @@ class Cameo(object):
             else:
                 self._captureManager.stopWritingVideo()
         elif keyCode == 27:
+            self._captureManager._capture.release()
             self._windowManager.destoryWindow()
+
 
 if __name__ == "__main__":
     Cameo().run()
