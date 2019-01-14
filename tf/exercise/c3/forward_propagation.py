@@ -11,8 +11,9 @@ y = tf.matmul(a, w2)
 
 sess = tf.Session()
 
-sess.run(w1.initializer)
-sess.run(w2.initializer)
-
-print(sess.run(y))
-sess.close()
+# sess.run(w1.initializer)
+# sess.run(w2.initializer)
+with sess.as_default():
+    init_op = tf.global_variables_initializer()
+    sess.run(init_op)
+    print(sess.run(y))
