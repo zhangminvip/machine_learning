@@ -17,3 +17,6 @@ with sess.as_default():
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
     print(sess.run(y))
+
+
+# tf.assign(w1,w2, validate_shape=False)
